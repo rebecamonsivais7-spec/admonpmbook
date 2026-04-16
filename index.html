@@ -1,692 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Tienda Nova | Catálogo Inteligente</title>
-  <!-- Font Awesome 6 (gratuito) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
-
-    body {
-      background: #f4f6fa;
-      color: #1e293b;
-      padding: 20px;
-    }
-
-    /* contenedor principal */
-    .app {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* header & navegación */
-    .navbar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      background: white;
-      padding: 12px 24px;
-      border-radius: 32px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 28px;
-    }
-
-    .logo {
-      font-weight: 800;
-      font-size: 1.6rem;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      font-weight: 600;
-      padding: 8px 18px;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-btn.active {
-      background: #3b82f6;
-      color: white;
-      box-shadow: 0 6px 12px -8px #3b82f6;
-    }
-
-    .nav-btn:not(.active):hover {
-      background: #eef2ff;
-    }
-
-    /* cards productos */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
-    }
-
-    .product-card {
-      background: white;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid #e9eef3;
-    }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
-    }
-
-    .card-body {
-      padding: 18px;
-    }
-
-    .product-title {
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 6px;
-    }
-
-    .product-category {
-      font-size: 0.75rem;
-      background: #eef2ff;
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 30px;
-      color: #2563eb;
-      margin-bottom: 12px;
-    }
-
-    .product-price {
-      font-weight: 800;
-      font-size: 1.4rem;
-      color: #0f172a;
-      margin: 12px 0 8px;
-    }
-
-    .stock-badge {
-      font-size: 0.8rem;
-      padding: 4px 10px;
-      border-radius: 20px;
-      display: inline-block;
-      margin: 8px 0;
-    }
-
-    .in-stock {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .low-stock {
-      background: #fff3e3;
-      color: #b45309;
-    }
-
-    .out-stock {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .variant-info {
-      font-size: 0.8rem;
-      color: #475569;
-      margin: 6px 0;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    button {
-      cursor: pointer;
-      border: none;
-      background: #f1f5f9;
-      padding: 8px 12px;
-      border-radius: 40px;
-      font-weight: 500;
-      transition: 0.2s;
-    }
-
-    .btn-primary {
-      background: #3b82f6;
-      color: white;
-    }
-
-    .btn-danger {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .btn-warning {
-      background: #ffedd5;
-      color: #c2410c;
-    }
-
-    /* filtros y buscador */
-    .filters-panel {
-      background: white;
-      border-radius: 28px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      border: 1px solid #eef2ff;
-    }
-
-    .search-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .search-input {
-      flex: 2;
-      padding: 12px 18px;
-      border-radius: 48px;
-      border: 1px solid #cbd5e1;
-      font-size: 1rem;
-    }
-
-    .filter-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .filter-select {
-      padding: 8px 14px;
-      border-radius: 32px;
-      border: 1px solid #cbd5e1;
-      background: white;
-    }
-
-    /* asistente virtual */
-    .assistant-card {
-      background: linear-gradient(105deg, #f1f5ff 0%, #ffffff 100%);
-      border-radius: 28px;
-      padding: 18px 24px;
-      margin-bottom: 24px;
-      border-left: 6px solid #8b5cf6;
-    }
-
-    .assistant-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .assistant-input {
-      flex: 2;
-      padding: 12px 18px;
-      border-radius: 48px;
-      border: 1px solid #cbd5e1;
-    }
-
-    /* modal para admin */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: white;
-      max-width: 500px;
-      width: 90%;
-      border-radius: 32px;
-      padding: 28px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: 20px;
-      border: 1px solid #cbd5e1;
-    }
-
-    /* admin panel */
-    .admin-badge {
-      background: #1e293b;
-      color: white;
-      padding: 6px 14px;
-      border-radius: 40px;
-      font-size: 0.8rem;
-    }
-
-    @media (max-width: 680px) {
-      .navbar { flex-direction: column; gap: 12px; }
-      .search-row { flex-direction: column; }
-    }
-
-    .empty-msg {
-      text-align: center;
-      padding: 48px;
-      color: #64748b;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda Boutique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app">
-  <div class="navbar">
-    <div class="logo"><i class="fas fa-store"></i> NovaStyle</div>
-    <div class="nav-buttons">
-      <button class="nav-btn active" data-view="catalogo"><i class="fas fa-grid"></i> Catálogo</button>
-      <button class="nav-btn" data-view="admin"><i class="fas fa-lock"></i> Admin (CRUD)</button>
-    </div>
-    <div class="admin-badge" id="adminRoleBadge">👤 Cliente</div>
-  </div>
+  <div class="site">
+    <div class="top-banner">TIENDA</div>
 
-  <!-- panel de filtros + búsqueda (visible en catálogo) -->
-  <div id="catalogoView">
-    <div class="filters-panel">
-      <div class="search-row">
-        <input type="text" id="searchInput" class="search-input" placeholder="🔍 Buscar por nombre, categoría, color, talla...">
-        <select id="categoryFilter" class="filter-select">
-          <option value="all">Todas las categorías</option>
-        </select>
-        <select id="stockFilter" class="filter-select">
-          <option value="all">Disponibilidad: todos</option>
-          <option value="instock">Solo en stock (>0)</option>
-          <option value="outofstock">Agotados</option>
-        </select>
+    <header class="header">
+      <button class="icon-btn" id="menuBtn">☰</button>
+
+      <div class="header-right">
+        <div class="search-box" id="searchBox">
+          <input type="text" id="searchInput" placeholder="Buscar producto, categoría o color">
+          <button class="clear-search-btn" id="clearSearchBtn">✕</button>
+        </div>
+        <button class="icon-btn" id="searchToggle">⌕</button>
+        <button class="icon-btn" id="cartToggle">👜</button>
       </div>
-    </div>
+    </header>
 
-    <!-- Asistente virtual de filtrado -->
-    <div class="assistant-card">
-      <div class="assistant-header">
-        <i class="fas fa-robot" style="font-size: 28px; color:#8b5cf6;"></i>
-        <strong style="font-size: 1.1rem;">Asistente virtual Nova</strong>
-        <span style="font-size: 0.8rem; color:#475569;">Describe lo que buscas 👇</span>
+    <div class="menu-panel hidden" id="menuPanel">
+      <div class="menu-panel-header">
+        <div class="menu-header-content">
+          <span class="menu-icon">👗</span>
+          <span>Menú</span>
+        </div>
+        <button id="closeMenuBtn">✕</button>
       </div>
-      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-        <input type="text" id="assistantQuery" class="assistant-input" placeholder="Ej: 'vestido rojo talla M', 'zapatos negros precio menor a 500', 'camisa algodón'">
-        <button id="assistantBtn" class="btn-primary" style="padding: 0 24px;"><i class="fas fa-magic"></i> Filtrar</button>
-      </div>
-      <div style="margin-top: 12px; font-size: 0.8rem; color:#475569;"><i class="fas fa-lightbulb"></i> Ejemplos: "vestido azul talla L", "pantalón casual menor a 700", "blusa roja en stock"</div>
-    </div>
 
-    <div id="productListContainer">
-      <!-- grid de productos dinámico -->
-      <div class="product-grid" id="productGrid"></div>
-    </div>
-  </div>
+      <div class="menu-panel-content">
+        <div class="menu-column">
+          <h4>Categorías</h4>
+          <button class="menu-link" data-menu-cat="Todas">Todas</button>
+          <button class="menu-link" data-menu-cat="Vestidos">Vestidos</button>
+          <button class="menu-link" data-menu-cat="Blusas">Blusas</button>
+          <button class="menu-link" data-menu-cat="Camisas">Camisas</button>
+          <button class="menu-link" data-menu-cat="Bolsas">Bolsas</button>
+        </div>
 
-  <!-- Vista administrador CRUD -->
-  <div id="adminView" style="display: none;">
-    <div style="background: white; border-radius: 32px; padding: 24px; margin-bottom: 24px;">
-      <h2><i class="fas fa-toolbox"></i> Panel de administración</h2>
-      <p>Crear, editar o eliminar productos (acceso libre para demo, pero simula rol admin)</p>
-      <button id="newProductBtn" class="btn-primary" style="margin-top: 12px;"><i class="fas fa-plus"></i> Nuevo producto</button>
-    </div>
-    <div id="adminProductGrid" class="product-grid"></div>
-  </div>
-</div>
-
-<!-- MODAL CRUD -->
-<div id="productModal" class="modal">
-  <div class="modal-content">
-    <h3 id="modalTitle">Agregar producto</h3>
-    <form id="productForm">
-      <input type="hidden" id="productId">
-      <div class="form-group"><label>Nombre *</label><input id="prodName" required></div>
-      <div class="form-group"><label>Descripción</label><textarea id="prodDesc" rows="2"></textarea></div>
-      <div class="form-group"><label>Categoría *</label><input id="prodCategory" required placeholder="Ej: Vestidos, Zapatos"></div>
-      <div class="form-group"><label>Precio (MXN)</label><input id="prodPrice" type="number" step="0.01" required></div>
-      <div class="form-group"><label>Talla</label><input id="prodSize" placeholder="S, M, L, 38, etc"></div>
-      <div class="form-group"><label>Color</label><input id="prodColor" placeholder="Rojo, Azul"></div>
-      <div class="form-group"><label>Stock disponible</label><input id="prodStock" type="number" value="0" required></div>
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
-        <button type="button" id="closeModalBtn" class="btn-warning">Cancelar</button>
-        <button type="submit" class="btn-primary">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  // ---------- DATA INICIAL (productos con variante única por simplicidad pero almacenamos talla/color/stock) ----------
-  let productos = [
-    { id: "p1", nombre: "Vestido Floral", descripcion: "Vestido largo con estampado de flores", categoria: "Vestidos", precio: 899, talla: "M", color: "Rojo", stock: 12 },
-    { id: "p2", nombre: "Blusa Seda", descripcion: "Blusa elegante color marfil", categoria: "Blusas", precio: 550, talla: "S", color: "Blanco", stock: 5 },
-    { id: "p3", nombre: "Pantalón Casual", descripcion: "Pantalón de algodón elástico", categoria: "Pantalones", precio: 720, talla: "L", color: "Negro", stock: 0 },
-    { id: "p4", nombre: "Zapatos Deportivos", descripcion: "Deportivos cómodos", categoria: "Zapatos", precio: 1299, talla: "38", color: "Gris", stock: 8 },
-    { id: "p5", nombre: "Camisa Oxford", descripcion: "Camisa formal", categoria: "Camisas", precio: 680, talla: "M", color: "Azul", stock: 3 },
-    { id: "p6", nombre: "Vestido Rojo Noche", descripcion: "Vestido de fiesta rojo", categoria: "Vestidos", precio: 1450, talla: "M", color: "Rojo", stock: 2 },
-    { id: "p7", nombre: "Chaqueta Jeans", descripcion: "Chaqueta denim", categoria: "Chaquetas", precio: 990, talla: "L", color: "Azul", stock: 7 },
-  ];
-
-  // Helper para obtener categorías únicas
-  function getUniqueCategories() {
-    const cats = productos.map(p => p.categoria);
-    return [...new Set(cats)];
-  }
-
-  // Renderizar catálogo con filtros (búsqueda, categoría, stock)
-  function renderCatalogo() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const categoryVal = document.getElementById('categoryFilter').value;
-    const stockFilter = document.getElementById('stockFilter').value;
-
-    let filtered = productos.filter(prod => {
-      // búsqueda inteligente: nombre, categoría, color, talla, descripción
-      const matchesSearch = 
-        prod.nombre.toLowerCase().includes(searchTerm) ||
-        prod.categoria.toLowerCase().includes(searchTerm) ||
-        prod.color.toLowerCase().includes(searchTerm) ||
-        prod.talla.toLowerCase().includes(searchTerm) ||
-        prod.descripcion.toLowerCase().includes(searchTerm);
-      const matchesCategory = (categoryVal === 'all' || prod.categoria === categoryVal);
-      let matchesStock = true;
-      if(stockFilter === 'instock') matchesStock = prod.stock > 0;
-      if(stockFilter === 'outofstock') matchesStock = prod.stock === 0;
-      return matchesSearch && matchesCategory && matchesStock;
-    });
-
-    const grid = document.getElementById('productGrid');
-    if(filtered.length === 0) {
-      grid.innerHTML = `<div class="empty-msg"><i class="fas fa-search"></i> No hay productos con esos filtros.<br>¡Prueba con otros criterios!</div>`;
-      return;
-    }
-    grid.innerHTML = filtered.map(prod => `
-      <div class="product-card">
-        <div class="card-body">
-          <div class="product-title">${escapeHtml(prod.nombre)}</div>
-          <span class="product-category">${escapeHtml(prod.categoria)}</span>
-          <div class="product-price">$${prod.precio.toFixed(2)}</div>
-          <div class="variant-info"><i class="fas fa-tag"></i> Talla: ${prod.talla} | Color: ${prod.color}</div>
-          <div class="stock-badge ${prod.stock > 0 ? 'in-stock' : 'out-stock'}">${prod.stock > 0 ? `✓ Stock: ${prod.stock} unidades` : '❌ Sin stock'}</div>
-          <div class="variant-info">${escapeHtml(prod.descripcion.substring(0, 70))}</div>
-          <div class="card-actions">
-            <button class="detail-btn" data-id="${prod.id}"><i class="fas fa-eye"></i> Detalle</button>
-          </div>
+        <div class="menu-column">
+          <h4>Acciones</h4>
+          <button class="menu-action" id="menuOpenCart">Abrir bolsa</button>
+          <button class="menu-action" id="menuOpenChat">Abrir asistente</button>
+          <button class="menu-action" id="menuResetCatalog">Volver al inicio</button>
         </div>
       </div>
-    `).join('');
+    </div>
 
-    // eventos para ver detalle
-    document.querySelectorAll('.detail-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = btn.getAttribute('data-id');
-        verDetalleProducto(id);
-      });
-    });
-  }
+    <div class="layout">
+      <main class="main" id="mainContent">
+        <div class="categories" id="categories"></div>
+        <div class="product-grid" id="productGrid"></div>
+      </main>
 
-  function verDetalleProducto(id) {
-    const prod = productos.find(p => p.id === id);
-    if(!prod) return;
-    alert(`🔍 DETALLE COMPLETO\n\nNombre: ${prod.nombre}\nDescripción: ${prod.descripcion}\nCategoría: ${prod.categoria}\nTalla: ${prod.talla}\nColor: ${prod.color}\nPrecio: $${prod.precio}\nDisponibilidad: ${prod.stock > 0 ? `${prod.stock} en stock` : 'Agotado'}`);
-  }
+      <aside class="cart-panel hidden" id="cartPanel">
+        <div class="cart-header">
+          <span>Mi bolsa</span>
+          <button class="close-cart-btn" id="closeCartBtn">✕</button>
+        </div>
+        <div class="cart-content" id="cartContent"></div>
+      </aside>
+    </div>
+  </div>
 
-  // Render admin (CRUD)
-  function renderAdmin() {
-    const adminGrid = document.getElementById('adminProductGrid');
-    if(!adminGrid) return;
-    adminGrid.innerHTML = productos.map(prod => `
-      <div class="product-card">
-        <div class="card-body">
-          <div class="product-title">${escapeHtml(prod.nombre)}</div>
-          <div class="product-category">${escapeHtml(prod.categoria)}</div>
-          <div class="product-price">$${prod.precio}</div>
-          <div class="variant-info"><i class="fas fa-palette"></i> ${prod.color} / Talla ${prod.talla}</div>
-          <div class="stock-badge ${prod.stock > 0 ? 'in-stock' : 'out-stock'}">Stock: ${prod.stock}</div>
-          <div class="card-actions">
-            <button class="edit-admin-btn" data-id="${prod.id}"><i class="fas fa-edit"></i> Editar</button>
-            <button class="delete-admin-btn" data-id="${prod.id}"><i class="fas fa-trash-alt"></i> Eliminar</button>
-          </div>
+  <button class="chat-btn" id="openChatBtn">Chat</button>
+
+  <div class="chat-modal hidden" id="chatModal">
+    <div class="chat-window">
+      <div class="chat-header">
+        <span>Asistente</span>
+        <button id="closeChatBtn">✕</button>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="bot-message">
+          Hola. Puedo ayudarte a buscar productos del catálogo.
         </div>
       </div>
-    `).join('');
-    document.querySelectorAll('.edit-admin-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = btn.getAttribute('data-id');
-        abrirModalEditar(id);
-      });
-    });
-    document.querySelectorAll('.delete-admin-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = btn.getAttribute('data-id');
-        if(confirm('¿Eliminar producto permanentemente?')) {
-          productos = productos.filter(p => p.id !== id);
-          actualizarCascada();
-        }
-      });
-    });
-  }
 
-  function abrirModalEditar(id) {
-    const prod = productos.find(p => p.id === id);
-    if(prod) {
-      document.getElementById('modalTitle').innerText = 'Editar Producto';
-      document.getElementById('productId').value = prod.id;
-      document.getElementById('prodName').value = prod.nombre;
-      document.getElementById('prodDesc').value = prod.descripcion;
-      document.getElementById('prodCategory').value = prod.categoria;
-      document.getElementById('prodPrice').value = prod.precio;
-      document.getElementById('prodSize').value = prod.talla;
-      document.getElementById('prodColor').value = prod.color;
-      document.getElementById('prodStock').value = prod.stock;
-      document.getElementById('productModal').style.display = 'flex';
-    }
-  }
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Escribe tu mensaje">
+        <button id="sendChatBtn">Enviar</button>
+      </div>
+    </div>
+  </div>
 
-  function abrirModalNuevo() {
-    document.getElementById('modalTitle').innerText = 'Nuevo Producto';
-    document.getElementById('productForm').reset();
-    document.getElementById('productId').value = '';
-    document.getElementById('productModal').style.display = 'flex';
-  }
-
-  function guardarProducto(event) {
-    event.preventDefault();
-    const id = document.getElementById('productId').value;
-    const nombre = document.getElementById('prodName').value.trim();
-    const descripcion = document.getElementById('prodDesc').value;
-    const categoria = document.getElementById('prodCategory').value.trim();
-    const precio = parseFloat(document.getElementById('prodPrice').value);
-    const talla = document.getElementById('prodSize').value.trim();
-    const color = document.getElementById('prodColor').value.trim();
-    const stock = parseInt(document.getElementById('prodStock').value);
-    if(!nombre || !categoria || isNaN(precio)) {
-      alert("Complete nombre, categoría y precio válido");
-      return;
-    }
-    if(id) {
-      // actualizar
-      const index = productos.findIndex(p => p.id === id);
-      if(index !== -1) {
-        productos[index] = { ...productos[index], nombre, descripcion, categoria, precio, talla, color, stock };
-      }
-    } else {
-      // crear nuevo ID
-      const newId = Date.now().toString();
-      productos.push({ id: newId, nombre, descripcion, categoria, precio, talla, color, stock });
-    }
-    actualizarCascada();
-    document.getElementById('productModal').style.display = 'none';
-  }
-
-  function actualizarCascada() {
-    // actualiza catálogo, admin, filtros de categorías y stock en tiempo real
-    llenarSelectCategorias();
-    renderCatalogo();
-    if(document.getElementById('adminView').style.display !== 'none') renderAdmin();
-    // sincroniza stock badge en todo momento
-  }
-
-  function llenarSelectCategorias() {
-    const catSelect = document.getElementById('categoryFilter');
-    const categories = getUniqueCategories();
-    const current = catSelect.value;
-    catSelect.innerHTML = '<option value="all">Todas las categorías</option>';
-    categories.forEach(cat => {
-      const option = document.createElement('option');
-      option.value = cat;
-      option.textContent = cat;
-      catSelect.appendChild(option);
-    });
-    if(current && [...catSelect.options].some(opt => opt.value === current)) catSelect.value = current;
-    else catSelect.value = 'all';
-  }
-
-  // ASISTENTE VIRTUAL (interpretación inteligente)
-  function asistenteFiltrar(texto) {
-    let query = texto.toLowerCase();
-    // Extraer posibles valores
-    let tallaMatch = query.match(/\b(talla|talle)?\s*([smlxlxxl\d]+)\b/i);
-    let colorMatch = query.match(/\b(rojo|azul|verde|negro|blanco|gris|amarillo|rosa|morado|naranja)\b/i);
-    let categoriaMatch = query.match(/\b(vestidos|blusas|pantalones|zapatos|camisas|chaquetas|faldas)\b/i);
-    let precioMatch = query.match(/(menor a|menor que|<)\s*(\d+)/i) || query.match(/(mayor a|>)\s*(\d+)/i);
-    let stockMatch = query.includes("en stock") || query.includes("disponible") || query.includes("stock disponible");
-    let palabraClave = query;
-
-    // Aplicar filtros de búsqueda combinando con inputs del panel (además actualizamos campos visuales)
-    let searchTerms = [];
-    if(tallaMatch) searchTerms.push(tallaMatch[2]);
-    if(colorMatch) searchTerms.push(colorMatch[1]);
-    if(categoriaMatch) searchTerms.push(categoriaMatch[1]);
-    // palabras clave general
-    searchTerms.push(query);
-    const finalSearch = searchTerms.join(" ");
-    document.getElementById('searchInput').value = finalSearch;
-
-    if(categoriaMatch) {
-      let catVal = categoriaMatch[1];
-      const selectCat = document.getElementById('categoryFilter');
-      if([...selectCat.options].some(opt => opt.value.toLowerCase() === catVal)) {
-        selectCat.value = catVal;
-      }
-    }
-    if(stockMatch) {
-      document.getElementById('stockFilter').value = 'instock';
-    } else if(query.includes("agotado") || query.includes("sin stock")) {
-      document.getElementById('stockFilter').value = 'outofstock';
-    } else {
-      if(document.getElementById('stockFilter').value === 'instock' && !stockMatch) {
-        // no forzamos reset a menos que se especifique
-      }
-    }
-    // disparar render
-    renderCatalogo();
-    // notificación sutil
-    let msg = `✨ Filtros aplicados: `;
-    if(tallaMatch) msg += `talla ${tallaMatch[2]}, `;
-    if(colorMatch) msg += `color ${colorMatch[1]}, `;
-    if(categoriaMatch) msg += `categoría ${categoriaMatch[1]}, `;
-    if(stockMatch) msg += `solo en stock. `;
-    if(precioMatch) msg += `(rango de precio no automático, pero la búsqueda incluye precio) `;
-    alert(msg + "\nResultados actualizados en catálogo.");
-  }
-
-  // navegación vistas + seguridad simulada (acceso restringido admin? lo simulamos con botón, pero mantenemos datos)
-  let currentView = 'catalogo';
-  function setView(view) {
-    currentView = view;
-    const catalogoDiv = document.getElementById('catalogoView');
-    const adminDiv = document.getElementById('adminView');
-    const navBtns = document.querySelectorAll('.nav-btn');
-    navBtns.forEach(btn => {
-      if(btn.getAttribute('data-view') === view) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-    if(view === 'catalogo') {
-      catalogoDiv.style.display = 'block';
-      adminDiv.style.display = 'none';
-      renderCatalogo();
-      document.getElementById('adminRoleBadge').innerHTML = '👤 Cliente';
-    } else {
-      catalogoDiv.style.display = 'none';
-      adminDiv.style.display = 'block';
-      renderAdmin();
-      document.getElementById('adminRoleBadge').innerHTML = '🔧 Administrador (CRUD activo)';
-    }
-  }
-
-  function escapeHtml(str) {
-    if(!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if(m === '&') return '&amp;';
-      if(m === '<') return '&lt;';
-      if(m === '>') return '&gt;';
-      return m;
-    });
-  }
-
-  // Eventos iniciales
-  document.getElementById('searchInput').addEventListener('input', () => renderCatalogo());
-  document.getElementById('categoryFilter').addEventListener('change', () => renderCatalogo());
-  document.getElementById('stockFilter').addEventListener('change', () => renderCatalogo());
-  document.getElementById('assistantBtn').addEventListener('click', () => {
-    const query = document.getElementById('assistantQuery').value.trim();
-    if(query) asistenteFiltrar(query);
-    else alert('Escribe una descripción del producto que buscas.');
-  });
-  document.getElementById('assistantQuery').addEventListener('keypress', (e) => {
-    if(e.key === 'Enter') document.getElementById('assistantBtn').click();
-  });
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      setView(btn.getAttribute('data-view'));
-    });
-  });
-  document.getElementById('newProductBtn')?.addEventListener('click', () => abrirModalNuevo());
-  document.getElementById('closeModalBtn')?.addEventListener('click', () => document.getElementById('productModal').style.display = 'none');
-  document.getElementById('productForm').addEventListener('submit', guardarProducto);
-  window.addEventListener('click', (e) => { if(e.target === document.getElementById('productModal')) document.getElementById('productModal').style.display = 'none'; });
-
-  // inicializar
-  llenarSelectCategorias();
-  renderCatalogo();
-  setView('catalogo');
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
