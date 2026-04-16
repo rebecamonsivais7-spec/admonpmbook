@@ -1,0 +1,74 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict DZjMV97yfqe8Pu8EhKG2bioKxmSqWiJlr1f9i0VyLtEh8apyg3eJk10NYB81s0t
+
+-- Dumped from database version 18.0
+-- Dumped by pg_dump version 18.0
+
+-- Started on 2026-04-14 23:52:39
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 219 (class 1259 OID 16403)
+-- Name: productos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.productos (
+    id text NOT NULL,
+    nombre character varying(150) NOT NULL,
+    descripcion text,
+    categoria character varying(100) NOT NULL,
+    precio numeric(10,2) NOT NULL,
+    talla character varying(20),
+    color character varying(50),
+    stock integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.productos OWNER TO postgres;
+
+--
+-- TOC entry 5006 (class 0 OID 16403)
+-- Dependencies: 219
+-- Data for Name: productos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.productos (id, nombre, descripcion, categoria, precio, talla, color, stock, created_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4858 (class 2606 OID 16416)
+-- Name: productos productos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.productos
+    ADD CONSTRAINT productos_pkey PRIMARY KEY (id);
+
+
+-- Completed on 2026-04-14 23:52:39
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict DZjMV97yfqe8Pu8EhKG2bioKxmSqWiJlr1f9i0VyLtEh8apyg3eJk10NYB81s0t
+
